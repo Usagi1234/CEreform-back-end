@@ -21,6 +21,17 @@ const student = require('./respository/Portal/Student');
 const report = require('./respository/Portal/Report');
 const news = require('./respository/Portal/news');
 const dashboard = require('./respository/Portal/dashborad');
+
+//---------------- Cwie ----------------------------------
+const Companyp = require('./respository/cwie/Company');
+const Student = require('./respository/cwie/Student');
+const teacher = require('./respository/cwie/teacher');
+const upload = require('./respository/cwie/upload');
+const report = require('./respository/cwie/report');
+const supervision = require('./respository/cwie/supervision');
+const login = require('./respository/cwie/login');
+const evaluate = require('./respository/cwie/evaluate');
+
 // --------------- env -----------------------------------
 const env = require('./env.js');
 //---------------- Websocket -----------------------------
@@ -1310,6 +1321,2419 @@ const init = async () => {
       }
     },
   });
+
+  //--------------------------------------------------------- โปรเจคกูที่แปลว่าฟิวส์  ----------------------------------------------------------------------------------- 
+
+    //---------------------------------------------------------- สถานประกอบการ ---------------------------------------------------------------//
+    {
+      /**GET /api/v1/companys */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/companys',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await Companyp.CompanyRepo.getcompanys();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/companyinsert */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/companyinsert',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { com_name, com_type, com_add, com_province, com_contact, user, pass } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Companyp.CompanyRepo.companyinsert(
+            com_name,
+            com_type,
+            com_add,
+            com_province,
+            com_contact,
+            user,
+            pass
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/companyupdate */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/companyupdate',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { com_id, com_name, com_type, com_add, com_province, com_contact, user, pass } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Companyp.CompanyRepo.companyupdate(
+            com_id,
+            com_name,
+            com_type,
+            com_add,
+            com_province,
+            com_contact,
+            user,
+            pass
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**DELETE /api/v1/companydelete */
+    }
+    server.route({
+      method: 'DELETE',
+      path: '/api/v1/companydelete',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { com_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Companyp.CompanyRepo.compantdelete(com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- นักศึกษา ---------------------------------------------------------------------------------//
+    {
+      /**GET /api/v1/students */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/students',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await Student.StudentRepo.getStudent();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/studentinsert */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/studentinsert',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { stu_name, stu_lname, stu_id, curriculum_id, stu_rmail, studygroup_id, stu_sex, stu_status } =
+            request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Student.StudentRepo.insertstudent(
+            stu_name,
+            stu_lname,
+            stu_id,
+            curriculum_id,
+            stu_rmail,
+            studygroup_id,
+            stu_sex,
+            stu_status
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/studentupdate */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/studentupdate',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { Id, stu_name, stu_lname, stu_id, stu_rmail, stu_status, curriculum_id, studygroup_id, stu_sex } =
+            request.payload;
+  
+          const responsedata = await Student.StudentRepo.studentupdate(
+            Id,
+            stu_name,
+            stu_lname,
+            stu_id,
+            stu_rmail,
+            stu_status,
+            curriculum_id,
+            studygroup_id,
+            stu_sex
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**DELETE /api/v1/Studentdelete */
+    }
+    server.route({
+      method: 'DELETE',
+      path: '/api/v1/Studentdelete',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { Id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Student.StudentRepo.Studentdelete(Id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/ReadStudentByUsername */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/ReadStudentByUsername',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username } = request.payload;
+          const responsedata = await Student.StudentRepo.ReadStudentByUsername(username);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- อาจารย์ ---------------------------------------------------------------------//
+    {
+      /**GET /api/v1/teacher */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/teachers',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await teacher.teacherRepo.getteacher();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/insertteacher */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/insertteacher',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { tea_name, tea_lname, tea_status, tea_tel, curriculum_id, studygroup_id, user, pass } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await teacher.teacherRepo.insertteacher(
+            tea_name,
+            tea_lname,
+            tea_status,
+            tea_tel,
+            curriculum_id,
+            studygroup_id,
+            user,
+            pass
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/teacherupdate */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/teacherupdate',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { tea_id, tea_name, tea_lname, tea_status, tea_tel, curriculum_id, studygroup_id, user, pass } =
+            request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await teacher.teacherRepo.teacherupdate(
+            tea_id,
+            tea_name,
+            tea_lname,
+            tea_status,
+            tea_tel,
+            curriculum_id,
+            studygroup_id,
+            user,
+            pass
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**DELETE /api/v1/teacherdelete */
+    }
+    server.route({
+      method: 'DELETE',
+      path: '/api/v1/teacherdelete',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { tea_id } = request.payload;
+          console.log('test');
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await teacher.teacherRepo.teacherdelete(tea_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- นิเทศ(สถานประกอบการ) ---------------------------------------------------------------------//
+    {
+      /**GET /api/v1/supervisioncom */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/supervisioncom',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await supervision.supervisionRepo.getsupercom();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/supervisioncominsert */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/supervisioncominsert',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { su_need, su_time, su_detail, su_coor, su_date, su_sugges, com_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await supervision.supervisionRepo.visioncominsert(
+            su_need,
+            su_time,
+            su_detail,
+            su_coor,
+            su_date,
+            su_sugges,
+            com_id
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/supervisioncomupdate */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/supervisioncomupdate',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { su_comid, su_need, su_time, su_detail, su_coor, su_sugges } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await supervision.supervisionRepo.visioncomupdate(
+            su_comid,
+            su_need,
+            su_time,
+            su_detail,
+            su_coor,
+            su_sugges
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- นิเทศ(อาจารย์) ---------------------------------------------------------------------//
+    {
+      /**GET /api/v1/supervisiontea */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/supervisiontea',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await supervision.supervisionRepo.getsupertea();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/supervisionteainsert */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/supervisionteainsert',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const {
+            su_day,
+            su_mon,
+            su_year,
+            su_time,
+            su_daparment,
+            su_mname,
+            su_job,
+            su_numstu,
+            su_sugges,
+            com_id,
+            tea_id,
+          } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await supervision.supervisionRepo.visionteainsert(
+            su_day,
+            su_mon,
+            su_year,
+            su_time,
+            su_daparment,
+            su_mname,
+            su_job,
+            su_numstu,
+            su_sugges,
+            com_id,
+            tea_id
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/supervisionteaupdate */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/supervisionteaupdate',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { su_teaid, su_day, su_mon, su_year, su_time, su_daparment, su_mname, su_job, su_numstu, su_sugges } =
+            request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await supervision.supervisionRepo.visionteaupdate(
+            su_teaid,
+            su_day,
+            su_mon,
+            su_year,
+            su_time,
+            su_daparment,
+            su_mname,
+            su_job,
+            su_numstu,
+            su_sugges
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- นิเทศ(นักศึกษา) ---------------------------------------------------------------------//
+    {
+      /**GET /api/v1/supervisionstu */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/supervisionstu',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await supervision.supervisionRepo.getsuperstu();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/supervisionstuinsert */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/supervisionstuinsert',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { su_timein, su_timeout, su_holiday, su_time, su_work, su_sugges, com_id, Id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await supervision.supervisionRepo.visionstuinsert(
+            su_timein,
+            su_timeout,
+            su_holiday,
+            su_time,
+            su_work,
+            su_sugges,
+            com_id,
+            Id
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/supervisionteaupdate */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/supervisionstuupdate',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { su_stuid, su_timein, su_timeout, su_holiday, su_time, su_work, su_sugges } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await supervision.supervisionRepo.visionstuupdate(
+            su_stuid,
+            su_timein,
+            su_timeout,
+            su_holiday,
+            su_time,
+            su_work,
+            su_sugges
+          ); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- สถานะ ---------------------------------------------------------------------//
+    {
+      /**GET /api/v1/status */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/status',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await report.ReposrtRepo.getstatus();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- รายงาน ---------------------------------------------------------------------//
+    {
+      /**GET /api/v1/getfilepdf */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/getfilepdf',
+      handler: async function (reply) {
+        try {
+          const responseData = await upload.uploadFile.read_file();
+          if (responseData.error) {
+            return responseData.errMessage;
+          } else {
+            return responseData;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], err);
+          throw err; // Throw the error to indicate a failure
+        }
+      },
+    });
+    {
+      /**GET /api/v1/getreport */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/getreport',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await report.ReposrtRepo.getreport();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/insertreport */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/insertreport',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { re_hname, re_week, re_details, Id, com_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await report.ReposrtRepo.insertreport(re_hname, re_week, re_details, Id, com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/updatereport */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/updatereport',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { re_id, re_hname, re_week, re_details, Id, com_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await report.ReposrtRepo.updatereport(re_id, re_hname, re_week, re_details, Id, com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**DELETE /api/v1/deletereport */
+    }
+    server.route({
+      method: 'DELETE',
+      path: '/api/v1/deletereport',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { re_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await report.ReposrtRepo.deletereport(re_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/pdfdelete */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/pdfdelete',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { up_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await upload.uploadFile.pdfdelete(up_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- เลือกคนเดียว ---------------------------------------------------------------------//
+    {
+      /**POST /api/v1/student */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/student',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { Id } = request.payload;
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Student.StudentRepo.Student(Id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/company */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/company',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { com_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Companyp.CompanyRepo.company(com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/teacher */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/teacher',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { tea_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await teacher.teacherRepo.teacher(tea_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- หลักสูตร ---------------------------------------------------------------------//
+    {
+      /**POST /api/v1/curriculum */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/curriculum',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await Student.StudentRepo.curriculum(); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    //---------------------------------------------------------- กลุ่มเรียน ---------------------------------------------------------------------//
+    {
+      /**POST /api/v1/studygroup */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/studygroup',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          // const {
+          //     curriculumId,
+          // } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Student.StudentRepo.studygroup(); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ---------------------------------------------------------- อัปโหลดไฟล์ ---------------------------------------------------------------------//
+  
+    {
+      /** /api/v1/uploadimg */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/uploadimg',
+      config: {
+        payload: {
+          output: 'stream',
+          parse: true,
+          allow: ['multipart/form-data', 'application/img'],
+          maxBytes: 10 * 1024 * 1024, // กำหนดขนาดไฟล์สูงสุด (ในบายต์)
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, h) {
+        try {
+          const file = request.payload['img'];
+          const new_img = new Date().getTime();
+          const new_name = file.hapi.filename;
+          const filePath = '../Documenets/' + new_img + '-' + new_name;
+  
+          // อัปโหลดไฟล์รูปภาพโดยใช้ multer
+          await upload.single('img')(request, h);
+  
+          // เพิ่มโค้ดที่คุณต้องการทำหลังจากการอัปโหลดไฟล์
+          // Save the file to disk
+          const fs = require('fs');
+          const fileStream = fs.createWriteStream(filePath);
+          await new Promise((resolve, reject) => {
+            file.on('error', (err) => {
+              reject(err);
+            });
+            file.pipe(fileStream);
+            file.on('end', () => {
+              resolve();
+            });
+          });
+  
+          const responsedata = await upload.uploadFile.upload_img(new_name, new_img);
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          throw err; // ส่งข้อผิดพลาดเพื่อแสดงให้เห็นว่าการอัปโหลดล้มเหลว
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- ค้นหาข้อมูล ---------------------------------------------------------------------//
+    {
+      /** /api/v1/searchdate */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/searchdate',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { curriculum_name, studygroup_name } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await Student.StudentRepo.searchdate(curriculum_name, studygroup_name);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- ข่าว ---------------------------------------------------------------------//
+    {
+      /** /api/v1/getnews */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/getnews',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await report.ReposrtRepo.getnews();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /** /api/v1/insertnew */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/insertnew',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { new_name, new_img, new_details } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await report.ReposrtRepo.insertnew(new_name, new_img, new_details);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /**POST /api/v1/deletenew */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/deletenew',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { new_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await report.ReposrtRepo.deletenew(new_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    //---------------------------------------------------------- login ---------------------------------------------------------------------//
+    {
+      /** /api/authenticationstu */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/authenticationstu',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username, password } = request.payload;
+          const responsedata = await login.authentication.authenticationstu(username, password);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /** /api/authenticationtea */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/authenticationtea',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username, password } = request.payload;
+          const responsedata = await login.authentication.authenticationtea(username, password);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /** /api/authenticationofficer */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/authenticationofficer',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username, password } = request.payload;
+          const responsedata = await login.authentication.authenticationofficer(username, password);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /** /api/authenticationcom */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/authenticationcom',
+      config: {
+        cors: {
+          origin: ['*'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username, password } = request.payload;
+          const responsedata = await login.authentication.authenticationcom(username, password);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /** /api/ReadStudent */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/ReadStudent',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username } = request.payload;
+          const responsedata = await login.authentication.Read_Frist_StudentByUsername(username);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /** /api/Readofficer */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/Readofficer',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username } = request.payload;
+          const responsedata = await login.authentication.Read_officer(username);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+    {
+      /** /api/ReadTeacher */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/ReadTeacher',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username } = request.payload;
+          const responsedata = await login.authentication.Read_Frist_TeacherByUsername(username);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ?------------------------------------------------------------------ ทำขึ้นใหม่ --------------------------------------------------------------------------------------------------------------------------//
+    //---------------------------------------------------------- อัพโหลด ---------------------------------------------------------------------//
+    {
+      /** /api/v1/uploadfilepdf */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/uploadFile',
+      options: {
+        payload: {
+          output: 'stream',
+          parse: true,
+          multipart: true,
+          allow: 'multipart/form-data',
+        },
+        validate: {
+          payload: Joi.object({
+            student_id: Joi.number().required(),
+            company_id: Joi.number().required(),
+            doc_filename: Joi.string().required(),
+            doc_filepath: Joi.string().required(),
+            doc_semester: Joi.number().required(),
+            doc_year: Joi.number().required(),
+            doc_type: Joi.number().required(),
+            doc_version: Joi.number().required(),
+          }),
+        },
+      },
+      handler: async (request, h) => {
+        console.log(request.payload);
+        try {
+          const { student_id, company_id, doc_filename, doc_filepath, doc_semester, doc_year, doc_type, doc_version } =
+            request.payload;
+  
+          const responsedata = await upload.uploadFile.uploadDocument(
+            student_id,
+            company_id,
+            doc_filename,
+            doc_filepath,
+            doc_semester,
+            doc_year,
+            doc_type,
+            doc_version
+          );
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], err);
+          throw err;
+        }
+      },
+    });
+  
+    // ?------------------------------------------------------------------ อัพเดทข้อมูลสำหรับอาจารย์และเจ้าหน้าที่ --------------------------------------------------------------------------------------------------------------------------//
+    server.route({
+      method: 'POST',
+      path: '/api/uploadFileTeacher',
+      options: {
+        payload: {
+          output: 'stream',
+          parse: true,
+          multipart: true,
+          allow: 'multipart/form-data',
+        },
+        validate: {
+          payload: Joi.object({
+            student_id: Joi.number().required(),
+            doc_filename: Joi.string().required(),
+            doc_filepath: Joi.string().required(),
+            doc_type: Joi.number().required(),
+            doc_version: Joi.number().required(),
+          }),
+        },
+      },
+      handler: async (request, h) => {
+        console.log(request.payload);
+        try {
+          const { student_id, doc_filename, doc_filepath, doc_type, doc_version } = request.payload;
+  
+          const responsedata = await upload.uploadFile.uploadDocumentTeacher(
+            student_id,
+            doc_filename,
+            doc_filepath,
+            doc_type,
+            doc_version
+          );
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], err);
+          throw err;
+        }
+      },
+    });
+  
+    // ?------------------------------------------------------------------ อ่านข้อมูล --------------------------------------------------------------------------------------------------------------------------//
+    // ** ดึงข้อมูลนักศึกษา
+    server.route({
+      method: 'POST',
+      path: '/api/getDataStudent',
+      handler: async (request, h) => {
+        try {
+          const { username } = request.payload;
+          console.log('test: ', username);
+          const responsedata = await login.authentication.getDataStudent(username);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- อ่านค่าปีการศึกษาล่าสุด ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'GET',
+      path: '/api/getSemesterYear',
+      handler: async (request, h) => {
+        try {
+          const responsedata = await upload.uploadFile.checkLastSemester();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- อ่านค่าปีการศึกษาลทั้งหมด ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'GET',
+      path: '/api/getAllSemesterYear',
+      handler: async (request, h) => {
+        try {
+          const responsedata = await upload.uploadFile.getAllSemesterYear();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- อ่านไฟล์นักศึกษา ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/getFileStudent',
+      handler: async (request, h) => {
+        try {
+          const { student_id } = request.payload;
+          const responsedata = await upload.uploadFile.getFileStudent(student_id);
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- อ่านไฟล์นักศึกษาสำหรับอาจารย์และเจ้าหน้าที่ ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/getDocumentsForTeacher',
+      handler: async (request, h) => {
+        try {
+          const { semester, year } = request.payload;
+          const responsedata = await teacher.teacherRepo.getDocumentForTeacher(semester, year);
+  
+          console.log('semester: ', semester);
+          console.log('year: ', year);
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- เอกสารไม่ผ่านการตรวจสอบ ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/getDocumentsNotPass',
+      handler: async (request, h) => {
+        try {
+          const { doc_id } = request.payload;
+          const responsedata = await teacher.teacherRepo.getDocumentNotPass(doc_id);
+  
+          console.log('doc_id: ', doc_id);
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- แสดงเอกสารตอบกลับของสถานประกอบการ ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/getDocumentsReply',
+      handler: async (request, h) => {
+        try {
+          const { com_id } = request.payload;
+  
+          const responsedata = await Companyp.CompanyRepo.getFileCompany(com_id);
+  
+          console.log('com_id: ', com_id);
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- ส่งเอกสารตอบกลับของสถานประกอบการ ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/sendDocumentsReply',
+      options: {
+        payload: {
+          output: 'stream',
+          parse: true,
+          multipart: true,
+          allow: 'multipart/form-data',
+        },
+        validate: {
+          payload: Joi.object({
+            company_id: Joi.number().required(),
+            ad_filename: Joi.string().required(),
+            ad_filepath: Joi.string().required(),
+          }),
+        },
+      },
+      handler: async (request, h) => {
+        try {
+          const { company_id, ad_filename, ad_filepath } = request.payload;
+  
+          console.log('company_id: ', company_id);
+          console.log('ad_filename: ', ad_filename);
+          console.log('ad_filepath: ', ad_filepath);
+  
+          const responsedata = await Companyp.CompanyRepo.sendFileCompany(company_id, ad_filename, ad_filepath);
+  
+          if (responsedata.error) {
+            return h
+              .response({
+                statusCode: responsedata.statusCode,
+                message: responsedata.errMessage,
+              })
+              .code(responsedata.statusCode);
+          } else {
+            return h
+              .response({
+                statusCode: 200,
+                message: 'Insert successfully',
+                data: responsedata,
+              })
+              .code(200);
+          }
+        } catch (error) {
+          server.log(['error', 'home'], error);
+          return h
+            .response({
+              statusCode: 500,
+              message: 'Internal Server Error',
+            })
+            .code(500);
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- อ่านข้อมูลสถานประกอบการจาก id ของสถานประกอบ ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/getCompanyById',
+      handler: async (request, h) => {
+        try {
+          const { com_id } = request.payload;
+  
+          const responsedata = await Companyp.CompanyRepo.getCompanyByID(com_id);
+  
+          console.log('com_id: ', com_id);
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          console.log(error);
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- อ่านไฟล์เอกสารตอบกลับของสถานประกอบการ สำหรับเจ้าหน้าที่ ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'GET',
+      path: '/api/getFileCompanyForOfficer',
+      handler: async (request, h) => {
+        try {
+          const responsedata = await upload.uploadFile.getFileCompanyForOfficer();
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          console.log(error);
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    // ? ---------------------------------------------------------- อ่านข้อมูลสถานประกอบการ ---------------------------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/ReadCompany',
+      handler: async (request, h) => {
+        try {
+          const { username } = request.payload;
+  
+          const responsedata = await login.authentication.ReadCompany(username);
+  
+          console.log('username: ', username);
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (error) {
+          console.log(error);
+          server.log(['error', 'home'], error);
+          throw error;
+        }
+      },
+    });
+  
+    server.route({
+      method: 'POST',
+      path: '/api/Read_Company',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username } = request.payload;
+          const responsedata = await login.authentication.Read_Company(username);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    server.route({
+      method: 'POST',
+      path: '/api/Rstudent',
+      config: {
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const { username } = request.payload;
+          const responsedata = await login.authentication.Rstudent(username);
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            // console.log(responsedata.jwt);
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ? --------------------------------------------------- ประเมินสถานประกอบการ (อาจารย์ประเมินสถานประกอบการ)  ------------------------------------------------------//
+  
+    {
+      /**GET /api/v1/getevaluate */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/getevaluate',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await evaluate.evaluateRepo.getevaluate();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // {
+    //   /**GET /api/v1/getevaluateall */
+    // }
+    // server.route({
+    //   method: 'GET',
+    //   path: '/api/v1/getevaluateall',
+    //   config: {
+    //     cors: {
+    //       origin: ['*'],
+    //       additionalHeaders: ['cache-control', 'x-requested-width'],
+    //     },
+    //   },
+    //   handler: async function (request, reply) {
+    //     try {
+    //       const responsedata = await evaluate.evaluateRepo.getevaluateall();
+    //       if (responsedata.error) {
+    //         return responsedata.errMessage;
+    //       } else {
+    //         return responsedata;
+    //       }
+    //     } catch (err) {
+    //       server.log(['error', 'home'], err);
+    //       return err;
+    //     }
+    //   },
+    // });
+  
+    {
+      /**POST /api/v1/companyinsert */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/answer_teacher',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { ecom_id, anstea_value, com_id, tea_id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await evaluate.evaluateRepo.answer_teacher(ecom_id, anstea_value, com_id, tea_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ? ----------------------------------------------------------- ประเมินนักศึกษา (ระหว่างนิเทศ)  --------------------------------------------------------------//
+  
+    {
+      /**GET /api/v1/getevaluatestudent */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/getevaluatestudent',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await evaluate.evaluateRepo.getevaluatestudent();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    {
+      /**POST /api/v1/answer_student */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/answer_student',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { estu_id, anstu_value, tea_id, Id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await evaluate.evaluateRepo.answer_student(estu_id, anstu_value, tea_id, Id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ? -------------------------------------------------------- ประเมินนักศึกษา (สถานประกอบการประเมินนักศึกษา)  -------------------------------------------------//
+  
+    {
+      /**GET /api/v1/getevaluatecompany_student */
+    }
+    server.route({
+      method: 'GET',
+      path: '/api/v1/getevaluatecompany_student',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await evaluate.evaluateRepo.getevaluatecompany_student();
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    {
+      /**POST /api/v1/answer_company_student */
+    }
+    server.route({
+      method: 'POST',
+      path: '/api/v1/answer_company_student',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { ecomstu_id, anscom_value, com_id, Id } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await evaluate.evaluateRepo.answer_company_student(ecomstu_id, anscom_value, com_id, Id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ?
+  
+    server.route({
+      method: 'POST',
+      path: '/api/v2/answer_company_student',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, reply) {
+        try {
+          // body requests
+          const { answerData } = request.payload;
+  
+          // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
+          const responsedata = await evaluate.evaluateRepo.getAnswerCompanyStudent(answerData); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ? -------------------------------------------------------- ส่งคำถามแบบประเมินนักศึกษา -------------------------------------------------//
+  
+    server.route({
+      method: 'GET',
+      path: '/api/v1/getquestion_student',
+      config: {
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+  
+      handler: async function (request, reply) {
+        try {
+          const responsedata = await evaluate.evaluateRepo.getquestion_student();
+  
+          if (responsedata.error) {
+            return responsedata.errMessage;
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return err;
+        }
+      },
+    });
+  
+    // ? -------------------------------------------------------- ส่งแบบประเมินนักศึกษา -------------------------------------------------//
+  
+    server.route({
+      method: 'POST',
+      path: '/api/v1/sendquestion_student',
+      config: {
+        // config for multi body request
+        payload: {
+          multipart: true,
+          parse: true, // ensures payload is parsed
+        },
+        cors: {
+          origin: ['*'],
+          additionalHeaders: ['cache-control', 'x-requested-width'],
+        },
+      },
+      handler: async function (request, h) {
+        // Changed "reply" to "h" based on more recent Hapi versions
+        try {
+          let answerData = request.payload.answerData;
+  
+          // If answerData is a string, try to parse it as JSON
+          if (typeof answerData === 'string') {
+            answerData = JSON.parse(answerData);
+          }
+  
+          const responsedata = await evaluate.evaluateRepo.sendquestion_student(answerData);
+  
+          if (responsedata.error) {
+            return h
+              .response({
+                statusCode: 500,
+                message: responsedata.errMessage,
+              })
+              .code(500);
+          } else {
+            return responsedata;
+          }
+        } catch (err) {
+          server.log(['error', 'home'], err);
+          return h
+            .response({
+              statusCode: 500,
+              message: err.message,
+            })
+            .code(500);
+        }
+      },
+    });
+
 
   await server.start();
   console.log('Server running on %s', server.info.uri);

@@ -25,9 +25,9 @@ const dashboard = require('./respository/Portal/dashborad');
 //---------------- Cwie ----------------------------------
 const Companyp = require('./respository/cwie/Company');
 const Student = require('./respository/cwie/Student');
-const teacher = require('./respository/cwie/teacher');
-const upload = require('./respository/cwie/upload');
-const report = require('./respository/cwie/report');
+const teachercwie = require('./respository/cwie/teacher');
+const uploadcwie = require('./respository/cwie/upload');
+const reportcwie = require('./respository/cwie/report');
 const supervision = require('./respository/cwie/supervision');
 const login = require('./respository/cwie/login');
 const evaluate = require('./respository/cwie/evaluate');
@@ -43,6 +43,7 @@ const webPort = 3280;
 const cookie = require('cookie-parser');
 var url = require('url');
 const { log } = require('console');
+const Joi = require('joi');
 
 //init Express
 var app = express();
@@ -882,7 +883,7 @@ const init = async () => {
             resolve();
           });
         });
-        const responsedata = await upload.uploadfile.upload_pdf(
+        const responsedata = await uploadcwie.uploadfile.upload_pdf(
           fileName,
           milliseconds,
           owner,
@@ -1322,7 +1323,7 @@ const init = async () => {
     },
   });
 
-  //--------------------------------------------------------- โปรเจคกูที่แปลว่าฟิวส์  ----------------------------------------------------------------------------------- 
+  //--------------------------------------------------------- โปรเจคกูที่แปลว่าฟิวส์ (cwie) ----------------------------------------------------------------------------------- 
 
     //---------------------------------------------------------- สถานประกอบการ ---------------------------------------------------------------//
     {
@@ -1625,7 +1626,7 @@ const init = async () => {
     }
     server.route({
       method: 'POST',
-      path: '/api/ReadStudentByUsername',
+      path: '/api/ReadStudentByUsernamecwie',
       config: {
         payload: {
           multipart: true,
@@ -1667,7 +1668,7 @@ const init = async () => {
       },
       handler: async function (request, reply) {
         try {
-          const responsedata = await teacher.teacherRepo.getteacher();
+          const responsedata = await teachercwie.teacherRepo.getteacher();
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -1701,7 +1702,7 @@ const init = async () => {
           const { tea_name, tea_lname, tea_status, tea_tel, curriculum_id, studygroup_id, user, pass } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await teacher.teacherRepo.insertteacher(
+          const responsedata = await teachercwie.teacherRepo.insertteacher(
             tea_name,
             tea_lname,
             tea_status,
@@ -1745,7 +1746,7 @@ const init = async () => {
             request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await teacher.teacherRepo.teacherupdate(
+          const responsedata = await teachercwie.teacherRepo.teacherupdate(
             tea_id,
             tea_name,
             tea_lname,
@@ -1790,7 +1791,7 @@ const init = async () => {
           console.log('test');
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await teacher.teacherRepo.teacherdelete(tea_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          const responsedata = await teachercwie.teacherRepo.teacherdelete(tea_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2174,7 +2175,7 @@ const init = async () => {
       },
       handler: async function (request, reply) {
         try {
-          const responsedata = await report.ReposrtRepo.getstatus();
+          const responsedata = await reportcwie.ReposrtRepo.getstatus();
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2196,7 +2197,7 @@ const init = async () => {
       path: '/api/getfilepdf',
       handler: async function (reply) {
         try {
-          const responseData = await upload.uploadFile.read_file();
+          const responseData = await uploadcwie.uploadFile.read_file();
           if (responseData.error) {
             return responseData.errMessage;
           } else {
@@ -2222,7 +2223,7 @@ const init = async () => {
       },
       handler: async function (request, reply) {
         try {
-          const responsedata = await report.ReposrtRepo.getreport();
+          const responsedata = await reportcwie.ReposrtRepo.getreport();
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2256,7 +2257,7 @@ const init = async () => {
           const { re_hname, re_week, re_details, Id, com_id } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await report.ReposrtRepo.insertreport(re_hname, re_week, re_details, Id, com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          const responsedata = await reportcwie.ReposrtRepo.insertreport(re_hname, re_week, re_details, Id, com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2290,7 +2291,7 @@ const init = async () => {
           const { re_id, re_hname, re_week, re_details, Id, com_id } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await report.ReposrtRepo.updatereport(re_id, re_hname, re_week, re_details, Id, com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          const responsedata = await reportcwie.ReposrtRepo.updatereport(re_id, re_hname, re_week, re_details, Id, com_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2324,7 +2325,7 @@ const init = async () => {
           const { re_id } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await report.ReposrtRepo.deletereport(re_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          const responsedata = await reportcwie.ReposrtRepo.deletereport(re_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2358,7 +2359,7 @@ const init = async () => {
           const { up_id } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await upload.uploadFile.pdfdelete(up_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          const responsedata = await uploadcwie.uploadFile.pdfdelete(up_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2461,7 +2462,7 @@ const init = async () => {
           const { tea_id } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await teacher.teacherRepo.teacher(tea_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          const responsedata = await teachercwie.teacherRepo.teacher(tea_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2587,7 +2588,7 @@ const init = async () => {
             });
           });
   
-          const responsedata = await upload.uploadFile.upload_img(new_name, new_img);
+          const responsedata = await uploadcwie.uploadFile.upload_img(new_name, new_img);
   
           if (responsedata.error) {
             return responsedata.errMessage;
@@ -2656,7 +2657,7 @@ const init = async () => {
       },
       handler: async function (request, reply) {
         try {
-          const responsedata = await report.ReposrtRepo.getnews();
+          const responsedata = await reportcwie.ReposrtRepo.getnews();
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2690,7 +2691,7 @@ const init = async () => {
           const { new_name, new_img, new_details } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await report.ReposrtRepo.insertnew(new_name, new_img, new_details);
+          const responsedata = await reportcwie.ReposrtRepo.insertnew(new_name, new_img, new_details);
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2724,7 +2725,7 @@ const init = async () => {
           const { new_id } = request.payload;
   
           // if (stu_id != '') { // ถ้า stu_id ไม่ว่าง = มีข้อมูลนั้นละ
-          const responsedata = await report.ReposrtRepo.deletenew(new_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
+          const responsedata = await reportcwie.ReposrtRepo.deletenew(new_id); //ดึงใช้ฟังชั่นจากไฟล์ student ดึงแค่ 1 คนจาก id
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -2863,7 +2864,7 @@ const init = async () => {
     }
     server.route({
       method: 'POST',
-      path: '/api/ReadStudent',
+      path: '/api/ReadStudentcwie',
       config: {
         payload: {
           multipart: true,
@@ -2925,7 +2926,7 @@ const init = async () => {
     }
     server.route({
       method: 'POST',
-      path: '/api/ReadTeacher',
+      path: '/api/ReadTeachercwie',
       config: {
         payload: {
           multipart: true,
@@ -2986,7 +2987,7 @@ const init = async () => {
           const { student_id, company_id, doc_filename, doc_filepath, doc_semester, doc_year, doc_type, doc_version } =
             request.payload;
   
-          const responsedata = await upload.uploadFile.uploadDocument(
+          const responsedata = await uploadcwie.uploadFile.uploadDocument(
             student_id,
             company_id,
             doc_filename,
@@ -3035,7 +3036,7 @@ const init = async () => {
         try {
           const { student_id, doc_filename, doc_filepath, doc_type, doc_version } = request.payload;
   
-          const responsedata = await upload.uploadFile.uploadDocumentTeacher(
+          const responsedata = await uploadcwie.uploadFile.uploadDocumentTeacher(
             student_id,
             doc_filename,
             doc_filepath,
@@ -3084,7 +3085,7 @@ const init = async () => {
       path: '/api/getSemesterYear',
       handler: async (request, h) => {
         try {
-          const responsedata = await upload.uploadFile.checkLastSemester();
+          const responsedata = await uploadcwie.uploadFile.checkLastSemester();
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -3104,7 +3105,7 @@ const init = async () => {
       path: '/api/getAllSemesterYear',
       handler: async (request, h) => {
         try {
-          const responsedata = await upload.uploadFile.getAllSemesterYear();
+          const responsedata = await uploadcwie.uploadFile.getAllSemesterYear();
           if (responsedata.error) {
             return responsedata.errMessage;
           } else {
@@ -3125,7 +3126,7 @@ const init = async () => {
       handler: async (request, h) => {
         try {
           const { student_id } = request.payload;
-          const responsedata = await upload.uploadFile.getFileStudent(student_id);
+          const responsedata = await uploadcwie.uploadFile.getFileStudent(student_id);
   
           if (responsedata.error) {
             return responsedata.errMessage;
@@ -3147,7 +3148,7 @@ const init = async () => {
       handler: async (request, h) => {
         try {
           const { semester, year } = request.payload;
-          const responsedata = await teacher.teacherRepo.getDocumentForTeacher(semester, year);
+          const responsedata = await teachercwie.teacherRepo.getDocumentForTeacher(semester, year);
   
           console.log('semester: ', semester);
           console.log('year: ', year);
@@ -3172,7 +3173,7 @@ const init = async () => {
       handler: async (request, h) => {
         try {
           const { doc_id } = request.payload;
-          const responsedata = await teacher.teacherRepo.getDocumentNotPass(doc_id);
+          const responsedata = await teachercwie.teacherRepo.getDocumentNotPass(doc_id);
   
           console.log('doc_id: ', doc_id);
   
@@ -3304,7 +3305,7 @@ const init = async () => {
       path: '/api/getFileCompanyForOfficer',
       handler: async (request, h) => {
         try {
-          const responsedata = await upload.uploadFile.getFileCompanyForOfficer();
+          const responsedata = await uploadcwie.uploadFile.getFileCompanyForOfficer();
   
           if (responsedata.error) {
             return responsedata.errMessage;
@@ -3431,33 +3432,6 @@ const init = async () => {
         }
       },
     });
-  
-    // {
-    //   /**GET /api/v1/getevaluateall */
-    // }
-    // server.route({
-    //   method: 'GET',
-    //   path: '/api/v1/getevaluateall',
-    //   config: {
-    //     cors: {
-    //       origin: ['*'],
-    //       additionalHeaders: ['cache-control', 'x-requested-width'],
-    //     },
-    //   },
-    //   handler: async function (request, reply) {
-    //     try {
-    //       const responsedata = await evaluate.evaluateRepo.getevaluateall();
-    //       if (responsedata.error) {
-    //         return responsedata.errMessage;
-    //       } else {
-    //         return responsedata;
-    //       }
-    //     } catch (err) {
-    //       server.log(['error', 'home'], err);
-    //       return err;
-    //     }
-    //   },
-    // });
   
     {
       /**POST /api/v1/companyinsert */

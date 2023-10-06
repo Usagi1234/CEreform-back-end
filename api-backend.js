@@ -35,7 +35,7 @@ const evaluate = require('./respository/cwie/evaluate');
 // --------------- env -----------------------------------
 const env = require('./env.js');
 //---------------- Websocket -----------------------------
-const hapiPort = 3200;
+const hapiPort = 3000;
 const webSocketPort = 3201;
 const webPort = 3280;
 
@@ -82,7 +82,7 @@ console.log('Running Environment: ' + env);
 const init = async () => {
   const server = hapi.Server({
     port: hapiPort,
-    host: '0.0.0.0',
+    host: '10.21.45.100',
     routes: {
       cors: true,
     },

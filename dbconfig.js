@@ -2,12 +2,10 @@
 
 var dbconfig = {
   development: {
-    //connectionLimit : 10,
     host: 'localhost',
-    port: '3306',
-    user: 'root',
-    password: '',
-    database: 'cereform',
+    user: 'ce_reform',
+    password: 'P@ssw0rd',
+    database: 'ce_reform',
   },
   production: {
     //connectionLimit : 10,
